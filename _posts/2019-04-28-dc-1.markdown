@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "CTF: DC-1"
+date:   2019-04-28 02:42:39 +0000
+categories: ctf
+---
+# Info
+A Boot to Root box I did on my own.
+
+Vulnhub link: [https://www.vulnhub.com/entry/dc-1-1,292/](vuln hub)
+
+Another walkthrough: [https://hackingresources.com/dc-1-1-vulnhub-walkthrough/](https://hackingresources.com/dc-1-1-vulnhub-walkthrough/)
+
+# Enumeration:
+nmap showed us that ssh, http and rpc were all listening. Starting with http, I hit the web server with a normal browser and found a Drupal instance running.
+
+# Vulnerabilities:
+Searchsploit found a handful of things to try, including a SQL injection attack for versions 7-7.something; which ended up working. (`TODO get details`)
+
+# Exploits:
+With a new admin user installed, I logged into the administrative panel and found that I could install drupal plugins. I found one that would allow me to run arbitrary PHP code (`TODO find the plugin name`), and after installing it I was actually able to get PHP to run.
+
+I created some test pages to have it query php_info(), and after confirming that worked, I built a quick page to wget a payload to let me stand up a reverse tunnel back to metasploit. I paused there, created the binary with msfvenom (`TODO get these details`) and started a php web server to host it.
+
+# Shell:
+In another window I hopped into msfconsole and started a meterpreter shell (`TODO get details`) to interact with it once the reverse tunnel was up and running.
+
+After flailing a bit, I got a PHP page to correctly pull down the binary and run it, starting my tunnel. (`TODO get details`) The meterpreter shell got me local shell access, and I found that I was in? (`TODO redo this`)
+
+`TODO find the rest of what I did`
